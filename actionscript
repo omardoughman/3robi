@@ -1,0 +1,66 @@
+package 
+{
+    import flash.display.Sprite;
+    import flash.events.Event;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
+
+    public class Main extends Sprite
+    {
+        private var box:Sprite;
+        private var speedX:Number = 4;
+        private var speedY:Number = 3;
+
+        public function Main()
+        {
+            // Background
+            graphics.beginFill(0x1E1E1E);
+            graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+            graphics.endFill();
+
+            // Create bouncing box
+            box = new Sprite();
+            box.graphics.beginFill(0x00CCFF);
+            box.graphics.drawRect(0, 0, 80, 80);
+            box.graphics.endFill();
+
+            box.x = 100;
+            box.y = 100;
+
+            addChild(box);
+
+            // Title text
+            var title:TextField = new TextField();
+            title.defaultTextFormat = new TextFormat("_sans", 24, 0xFFFFFF, true);
+            title.width = 400;
+            title.text = "ActionScript 3 Thing";
+            title.x = 20;
+            title.y = 20;
+
+            addChild(title);
+
+            // Start animation
+            addEventListener(Event.ENTER_FRAME, update);
+        }
+
+        private function update(e:Event):void
+        {
+            box.x += speedX;
+            box.y += speedY;
+
+            // Bounce off edges
+            if (box.x <= 0 || box.x + box.width >= stage.stageWidth)
+            {
+                speedX *= -1;
+            }
+
+            if (box.y <= 0 || box.y + box.height >= stage.stageHeight)
+            {
+                speedY *= -1;
+            }
+
+            // Rotate forever
+            box.rotation += 2;
+        }
+    }
+}
